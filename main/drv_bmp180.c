@@ -13,7 +13,7 @@
 #include "driver/i2c.h"
 #include "esp_log.h"
 
-#include "bmp180.h"
+#include "drv_bmp180.h"
 
 static const char* TAG = "BMP180 I2C Driver";
 
