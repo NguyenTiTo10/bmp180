@@ -5,8 +5,8 @@
 static const char *TAG = "BMP180";
 
 #define BMP180_ADDRESS 0x77         // BMP180のI2Cアドレス
-#define I2C_MASTER_SCL_IO 21        /*!< gpio number for I2C master clock */
-#define I2C_MASTER_SDA_IO 22        /*!< gpio number for I2C master data  */
+#define I2C_MASTER_SCL_IO 22        /*!< gpio number for I2C master clock */
+#define I2C_MASTER_SDA_IO 21        /*!< gpio number for I2C master data  */
 #define I2C_MASTER_FREQ_HZ 400000   /*!< I2C master clock frequency */
 #define I2C_MASTER_TX_BUF_DISABLE 0 /*!< I2C master do not need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE 0 /*!< I2C master do not need buffer */
