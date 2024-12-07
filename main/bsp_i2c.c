@@ -10,6 +10,7 @@ bool bsp_i2c_is_ready(void)
   return (cmd == NULL) ? false : true;  // Directly return the result of the condition
 }
 
+
 bool bsp_i2c_is_device_ready(uint16_t dev_addr) 
 {
   cmd = i2c_cmd_link_create();
@@ -25,6 +26,7 @@ bool bsp_i2c_is_device_ready(uint16_t dev_addr)
 
   return (ret == ESP_OK);
 }
+
 
 bool bsp_i2c_write_mem(uint16_t dev_addr, uint16_t mem_addr,  uint8_t *data, size_t length)
 {

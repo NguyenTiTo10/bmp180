@@ -9,6 +9,14 @@
 #include "bsp_i2c.h"
 #include "bsp_timer.h"
 
+
+typedef enum
+{
+  DRV_BMP180_ERROR = 0,
+  DRV_BMP180_OK
+} drv_bmp180_ret_t;
+
+
 // Write to BMP180 register
 esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len);
 
