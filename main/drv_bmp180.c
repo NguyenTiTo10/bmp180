@@ -18,7 +18,7 @@
 #define BMP180_REG_CAL_MC           0xBC
 #define BMP180_REG_CAL_MD           0xBE
 
-#define BMP180_REG_CTRL_MEAS        0xF4
+#define BMP180_REG_CTRL_VALUE       0xF4
 #define BMP180_REG_OUT_MSB          0xF6
 #define BMP180_REG_OUT_LSB          0xF7
 #define BMP180_REG_OUT_XLSB         0xF8
@@ -44,6 +44,14 @@ esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len)
     esp_err_t err = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
     return err;
+}
+
+
+drv_bmp180_ret_t drv_bmp180_write_reg (uint8_t* command, size_t length)
+{
+  bool ret = false;                                     
+  ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, DATA_MODE, data, length);
+  return (ret == true) ? ESP_OK : ESP_FAIL;
 }
 
 // Read from BMP180 register
