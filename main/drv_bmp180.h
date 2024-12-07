@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "esp_log.h"
 #include "driver/i2c.h"
+#include "portmacro.h"
 
 // Write to BMP180 register
 esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len);

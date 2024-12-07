@@ -1,6 +1,8 @@
 #include "drv_bmp180.h"
 
 
+#define I2C_MASTER_NUM              I2C_NUM_0
+
 #define BMP180_SENSOR_ADDR          0x77  // Default I2C address of BMP180
 
 // BMP180 Registers
