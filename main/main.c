@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "esp_log.h"
 #include "driver/i2c.h"
+#include "drv_bmp180.h"
 
 // I2C Configuration
 #define I2C_MASTER_SCL_IO           22  // GPIO number for SCL
@@ -29,12 +30,12 @@ esp_err_t i2c_master_init()
 
 
 // Main task to initialize and read data from BMP180
-void app_main(void) {
+void app_main(void) 
+{
     esp_err_t ret = i2c_master_init();
-    if (ret != ESP_OK) {
-        ESP_LOGE("I2C", "I2C initialization failed!");
-        return;
-    }
+    if (ret != ESP_OK) 
+      ESP_LOGE("I2C", "I2C initialization failed!");
+  
 
     ret = bmp180_read_calibration();
     if (ret != ESP_OK) {

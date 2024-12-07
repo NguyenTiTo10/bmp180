@@ -12,11 +12,11 @@
 #define BMP180_REG_CAL_AC4          0xB0
 #define BMP180_REG_CAL_AC5          0xB2
 #define BMP180_REG_CAL_AC6          0xB4
-#define BMP180_REG_CAL_B1          0xB6
-#define BMP180_REG_CAL_B2          0xB8
-#define BMP180_REG_CAL_MB          0xBA
-#define BMP180_REG_CAL_MC          0xBC
-#define BMP180_REG_CAL_MD          0xBE
+#define BMP180_REG_CAL_B1           0xB6
+#define BMP180_REG_CAL_B2           0xB8
+#define BMP180_REG_CAL_MB           0xBA
+#define BMP180_REG_CAL_MC           0xBC
+#define BMP180_REG_CAL_MD           0xBE
 
 #define BMP180_REG_CTRL_MEAS        0xF4
 #define BMP180_REG_OUT_MSB          0xF6
@@ -24,7 +24,7 @@
 #define BMP180_REG_OUT_XLSB         0xF8
 
 #define BMP180_CMD_READ_TEMP        0x2E
-#define BMP180_CMD_READ_PRESSURE   0x34
+#define BMP180_CMD_READ_PRESSURE    0x34
 
 // Calibration data variables
 int16_t AC1, AC2, AC3;
@@ -33,7 +33,8 @@ int16_t B1, B2;
 int16_t MB, MC, MD;
 
 // Write to BMP180 register
-esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len) {
+esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len) 
+{
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, true);
@@ -46,7 +47,8 @@ esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len) {
 }
 
 // Read from BMP180 register
-esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len) {
+esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len) 
+{
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, true);
@@ -61,7 +63,8 @@ esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len) {
 }
 
 // Function to read calibration data from BMP180
-esp_err_t bmp180_read_calibration() {
+esp_err_t bmp180_read_calibration() 
+{
     uint8_t data[22];
     esp_err_t ret = bmp180_read_register(BMP180_REG_CAL_AC1, data, 22);
     if (ret != ESP_OK) {
