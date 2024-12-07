@@ -104,8 +104,11 @@ esp_err_t bmp180_read_calibration()
 
 // Read raw temperature data from BMP180
 esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) {
-    uint8_t cmd = BMP180_CMD_READ_TEMP;
-    bmp180_write_register(BMP180_REG_CTRL_MEAS, &cmd, 1);
+    // uint8_t cmd = BMP180_CMD_READ_TEMP;
+    // bmp180_write_register(BMP180_REG_CTRL_MEAS, &cmd, 1);
+
+    drv_bmp180_send_command(BMP180_CMD_READ_TEMP);
+
     vTaskDelay(5 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[2];
@@ -120,8 +123,11 @@ esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) {
 
 // Read raw pressure data from BMP180
 esp_err_t bmp180_read_raw_pressure(int32_t *raw_press) {
-    uint8_t cmd = BMP180_CMD_READ_PRESSURE;
-    bmp180_write_register(BMP180_REG_CTRL_MEAS, &cmd, 1);
+    // uint8_t cmd = BMP180_CMD_READ_PRESSURE;
+    // bmp180_write_register(BMP180_REG_CTRL_MEAS, &cmd, 1);
+
+    drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE);
+
     vTaskDelay(25 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[3];
