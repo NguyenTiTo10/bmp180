@@ -47,7 +47,7 @@ esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len)
 }
 
 
-static drv_bmp180_ret_t drv_bmp180_write_reg (uint8_t* command)
+static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t* command)
 {
   bool ret = false;                                     
   ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, BMP180_REG_CTRL_VALUE, command, 1);
