@@ -16,6 +16,10 @@
   "idf.toolsPathWin": "C:\\Users\\MTC-TTM\\.espressif",
   "idf.flashType": "UART",
   "files.associations": {
-    "i2c_master.h": "c"
+    "i2c_master.h": "c",
+    "array": "c",
+    "string": "c",
+    "string_view": "c",
+    "span": "c"
   }
 }
