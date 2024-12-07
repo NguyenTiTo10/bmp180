@@ -6,7 +6,7 @@
 #define I2C_MASTER_SCL_IO           22  // GPIO number for SCL
 #define I2C_MASTER_SDA_IO           21  // GPIO number for SDA
 #define I2C_MASTER_NUM              I2C_NUM_0
-#define I2C_MASTER_FREQ_HZ          100000  // 100kHz
+#define I2C_MASTER_FREQ_HZ          400000  // 100kHz
 
 #define BMP180_SENSOR_ADDR          0x77  // Default I2C address of BMP180
 
@@ -38,14 +38,16 @@ int16_t B1, B2;
 int16_t MB, MC, MD;
 
 // I2C Initialization
-esp_err_t i2c_master_init() {
-    i2c_config_t conf = {
-        .mode = I2C_MODE_MASTER,
-        .sda_io_num = I2C_MASTER_SDA_IO,
-        .scl_io_num = I2C_MASTER_SCL_IO,
-        .sda_pullup_en = GPIO_PULLUP_ENABLE,
-        .scl_pullup_en = GPIO_PULLUP_ENABLE,
-        .master.clk_speed = I2C_MASTER_FREQ_HZ,
+esp_err_t i2c_master_init() 
+{
+    i2c_config_t conf = 
+    {
+      .mode = I2C_MODE_MASTER,
+      .sda_io_num = I2C_MASTER_SDA_IO,
+      .scl_io_num = I2C_MASTER_SCL_IO,
+      .sda_pullup_en = GPIO_PULLUP_ENABLE,
+      .scl_pullup_en = GPIO_PULLUP_ENABLE,
+      .master.clk_speed = I2C_MASTER_FREQ_HZ,
     };
     esp_err_t err = i2c_param_config(I2C_MASTER_NUM, &conf);
     if (err != ESP_OK) return err;
