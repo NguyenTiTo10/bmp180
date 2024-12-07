@@ -70,7 +70,12 @@ esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len)
     return err;
 }
 
-
+static drv_bmp180_ret_t drv_bmp180_read_reg (uint8_t* reg_addr, uint8_t *data)
+{
+  bool ret = false;                                     
+  ret = bsp_i2c_read_mem(BMP180_SENSOR_ADDR, reg_addr, data, 1);
+  return (ret == true) ? DRV_BMP180_ERROR : DRV_BMP180_OK;
+}
 
 
 // Function to read calibration data from BMP180

@@ -66,14 +66,14 @@ bool bsp_i2c_read_mem   (uint16_t dev_addr, uint16_t mem_addr,  uint8_t *data, s
   i2c_master_start(cmd);
 
   // Write the device address and the memory address to start the read operation
-  i2c_master_write_byte(cmd, dev_addr, true);
+  i2c_master_write_byte(cmd, (dev_addr << 1) | I2C_MASTER_WRITE, true);
   i2c_master_write_byte(cmd, mem_addr, true);
 
   // Repeated start to begin reading from the device
   i2c_master_start(cmd);
 
   // Read the data from the device
-  i2c_master_write_byte(cmd, dev_addr | 1, true);  // Set the LSB of the address for reading (I2C_READ)
+  i2c_master_write_byte(cmd, (dev_addr << 1) | I2C_MASTER_READ, true);  // Set the LSB of the address for reading (I2C_READ)
   i2c_master_read(cmd, data, length, I2C_MASTER_LAST_NACK);  // Read the requested data
 
   i2c_master_stop(cmd);
