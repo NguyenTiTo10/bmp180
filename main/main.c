@@ -11,11 +11,11 @@ static const char *TAG = "BMP180";
 #define I2C_MASTER_TX_BUF_DISABLE 0 /*!< I2C master do not need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE 0 /*!< I2C master do not need buffer */
 #define ACK_CHECK_EN 0x1            // I2C master will check ack from slave
-#define CHIP_ID_REG_ADDR 0xD0       // チップIDレジスタのアドレス
-#define CHIP_ID_EXPECTED 0x55       // 期待されるチップID
+#define CHIP_ID_REG_ADDR 0xD0       // Chip ID register address
+#define CHIP_ID_EXPECTED 0x55       // Expected chip ID
 #define BMP180_ULTRA_HIGH_RES 3
-#define BMP180_CALIB_DATA_START 0xAA // 校正データの開始レジスタアドレス
-#define BMP180_CALIB_DATA_SIZE 22    // 校正データのサイズ（バイト）
+#define BMP180_CALIB_DATA_START 0xAA // Calibration data start register address
+#define BMP180_CALIB_DATA_SIZE 22    // Calibration data size (bytes)
 #define BMP180_READ_PRESSURE_CMD 0x34
 #define READ_PRESSURE_ADDR BMP180_READ_PRESSURE_CMD + (oversampling << 6)
 #define CONTROL_REGISTER_ADDR 0xF4 // Control register Control register value (register address 0xF4)
