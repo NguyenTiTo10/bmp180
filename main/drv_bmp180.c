@@ -70,7 +70,7 @@ esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len)
     return err;
 }
 
-static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data)
+static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, size_t length)
 {
   bool ret = false;                                     
   ret = bsp_i2c_read_mem(BMP180_SENSOR_ADDR, reg_addr, data, 1);
@@ -82,10 +82,13 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data)
 esp_err_t bmp180_read_calibration() 
 {
     uint8_t data[22];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_CAL_AC1, data, 22);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_CAL_AC1, data, 22);
+
+    drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, 22);
+
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
 
     AC1 = (data[0] << 8) | data[1];
     AC2 = (data[2] << 8) | data[3];
@@ -112,10 +115,12 @@ esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) {
     vTaskDelay(5 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[2];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 2);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 2);
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
+
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 2);
 
     *raw_temp = (data[0] << 8) | data[1];
     return ESP_OK;
@@ -131,10 +136,12 @@ esp_err_t bmp180_read_raw_pressure(int32_t *raw_press) {
     vTaskDelay(25 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[3];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 3);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 3);
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
+
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 3);
 
     *raw_press = (data[0] << 16) | (data[1] << 8) | data[2];
     return ESP_OK;
