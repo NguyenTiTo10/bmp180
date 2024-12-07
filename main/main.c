@@ -49,11 +49,9 @@ esp_err_t i2c_master_init()
       .scl_pullup_en = GPIO_PULLUP_ENABLE,
       .master.clk_speed = I2C_MASTER_FREQ_HZ,
     };
-    esp_err_t err = i2c_param_config(I2C_MASTER_NUM, &conf);
-    if (err != ESP_OK) return err;
-
-    err = i2c_driver_install(I2C_MASTER_NUM, I2C_MODE_MASTER, 0, 0, 0);
-    return err;
+    
+    i2c_param_config(I2C_MASTER_NUM, &conf);                                      
+    return i2c_driver_install(I2C_MASTER_NUM, conf.mode, 0, 0, 0);   
 }
 
 // Write to BMP180 register
