@@ -3,6 +3,7 @@
 #include "driver/i2c.h"
 #include "drv_bmp180.h"
 #include "bsp_timer.h"
+
 // I2C Configuration
 #define I2C_MASTER_SCL_IO           22  // GPIO number for SCL
 #define I2C_MASTER_SDA_IO           21  // GPIO number for SDA
@@ -41,6 +42,9 @@ void app_main(void)
     while (1)
     {
         drv_bmp180_start_read ();
+
+        ESP_LOGI("BMP180", "Temperature: %.1f °C", drv_bmp180_get_temp());
+        ESP_LOGI("BMP180", "Pressure: %.2f hPa", drv_bmp180_get_press());
 
         bsp_timer_delay(2000);
     }

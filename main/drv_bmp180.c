@@ -59,6 +59,8 @@ uint16_t    AC4, AC5, AC6;
 int16_t     B1, B2;
 int16_t     MB, MC, MD;
 
+int32_t temp_raw, press_raw;
+int32_t temp_true_int, press_true_int;
 
 bmp180_struct_t bmp180_ret;
 
@@ -202,27 +204,16 @@ drv_bmp180_ret_t drv_bmp180_init()
 
 drv_bmp180_ret_t drv_bmp180_start_read ()
 {
-    drv_bmp180_ret_t ret = drv_bmp180_read_calibration();
-    if (ret != DRV_BMP180_OK) 
-    {
-        ESP_LOGE("BMP180", "Calibration read failed!");
-        return DRV_BMP180_ERROR;
-    }
-
-    int32_t temp_raw, press_raw;
-    int32_t temp_true_int, press_true_int;
+    drv_bmp180_read_calibration();
 
     temp_raw = drv_bmp180_read_raw_temp     ();
     press_raw = drv_bmp180_read_raw_press   ();
 
-    temp_true_int = drv_bmp180_calculate_temp(temp_raw);
-    press_true_int = drv_bmp180_calculate_press(press_raw, temp_true_int);
+    temp_true_int   =   drv_bmp180_calculate_temp   (temp_raw);
+    press_true_int  =   drv_bmp180_calculate_press  (press_raw, temp_true_int);
 
-    bmp180_ret.temperature  =   temp_true_int / 10.0f;          // Convert 0.1°C unit to °C
-    bmp180_ret.pressure     =   press_true_int / 100.0f;         // Convert Pa to hPa
-
-    // ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp_true_int / 10, temp_true_int % 10);
-    // ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press_true_int / 100, press_true_int % 100);
+    bmp180_ret.temperature  =   temp_true_int / 10.0f;              // Convert 0.1°C unit to °C
+    bmp180_ret.pressure     =   press_true_int / 100.0f;            // Convert Pa to hPa
 
     return DRV_BMP180_OK;
 }
