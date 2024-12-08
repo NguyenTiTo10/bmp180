@@ -33,10 +33,10 @@ int16_t B1, B2;
 int16_t MB, MC, MD;
 
 // Write to BMP180 register
-static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t reg_addr)
+static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t control_reg_value)
 {
   bool ret = false;                                     
-  ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, BMP180_REG_CTRL_VALUE, &reg_addr, 1);
+  ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, BMP180_REG_CTRL_VALUE, &control_reg_value, 1);
   return (ret == true) ? DRV_BMP180_OK : DRV_BMP180_ERROR;
 }
 
@@ -69,12 +69,12 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, s
 esp_err_t bmp180_read_calibration() 
 {
     uint8_t data[22];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_CAL_AC1, data, 22);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_CAL_AC1, data, 22);
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
 
-    // drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, 22);
+    drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, 22);
 
 
     AC1 = (data[0] << 8) | data[1];
@@ -95,18 +95,17 @@ esp_err_t bmp180_read_calibration()
 // Read raw temperature data from BMP180
 esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) 
 {
-
     drv_bmp180_send_command(BMP180_CMD_READ_TEMP);
 
     vTaskDelay(5 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[2];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 2);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 2);
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
 
-    // drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 2);
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 2);
 
     *raw_temp = (data[0] << 8) | data[1];
     return ESP_OK;
@@ -120,12 +119,12 @@ esp_err_t bmp180_read_raw_pressure(int32_t *raw_press)
     vTaskDelay(25 / portTICK_PERIOD_MS);  // Wait for conversion
 
     uint8_t data[3];
-    esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 3);
-    if (ret != ESP_OK) {
-        return ret;
-    }
+    // esp_err_t ret = bmp180_read_register(BMP180_REG_OUT_MSB, data, 3);
+    // if (ret != ESP_OK) {
+    //     return ret;
+    // }
 
-    // drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 3);
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 3);
 
     *raw_press = (data[0] << 16) | (data[1] << 8) | data[2];
     return ESP_OK;
