@@ -56,7 +56,7 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, s
 drv_bmp180_ret_t drv_bmp180_read_calibration() 
 {
     uint8_t data[EEPROM_SIZE];
-    if (drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, EEPROM_SIZE) == DRV_BMP180_ERROR)
+    if (drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, EEPROM_SIZE) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
 
     AC1 = (data[0]  << 8) | data[1] ;
@@ -77,10 +77,11 @@ drv_bmp180_ret_t drv_bmp180_read_calibration()
 // Read raw temperature data from BMP180
 drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)                     // uncompensated temperature
 {
-    drv_bmp180_send_command(BMP180_CMD_READ_TEMP);
+    if (drv_bmp180_send_command(BMP180_CMD_READ_TEMP) != DRV_BMP180_OK)
+        return DRV_BMP180_ERROR;
 
-    vTaskDelay(5 / portTICK_PERIOD_MS);  // Wait for conversion
-
+    bsp_timer_delay(5); 
+    
     uint8_t data[2];
 
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
