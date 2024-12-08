@@ -18,7 +18,7 @@ typedef enum
 
 
 // Function to read calibration data from BMP180
-esp_err_t bmp180_read_calibration();
+drv_bmp180_ret_t drv_bmp180_read_calibration();
 
 // Read raw temperature data from BMP180
 esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp);
