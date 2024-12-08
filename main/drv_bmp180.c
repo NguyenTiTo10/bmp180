@@ -135,13 +135,15 @@ int32_t drv_bmp180_read_raw_press ()                      // uncompensated press
     uint8_t press_raw_lsb;
     uint8_t press_raw_xlsb;
 
+    int32_t raw_press_ret;
+
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB  , &press_raw_msb    , 1);
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB  , &press_raw_lsb    , 1);
     drv_bmp180_read_reg(BMP180_REG_OUT_XLSB , &press_raw_xlsb   , 1);
 
-    int32_t raw_press_ret; = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
+    raw_press_ret = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
 
-    return DRV_BMP180_OK;
+    return raw_press_ret;
 }
 
 
