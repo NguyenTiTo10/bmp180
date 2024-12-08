@@ -48,7 +48,8 @@ void app_main(void)
 
         int32_t raw_temp, raw_press;
         ret = drv_bmp180_read_raw_temperature(&raw_temp);
-        if (ret != DRV_BMP180_OK) {
+        if (ret != DRV_BMP180_OK) 
+        {
             ESP_LOGE("BMP180", "Failed to read raw temperature!");
             return;
         }

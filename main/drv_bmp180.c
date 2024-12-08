@@ -81,13 +81,14 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
         return DRV_BMP180_ERROR;
 
     bsp_timer_delay(5); 
-    
+
     uint8_t data[2];
 
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
 
     *raw_temp = (data[0] << 8) | data[1];
-    return ESP_OK;
+    
+    return DRV_BMP180_OK;
 }
 
 // Read raw pressure data from BMP180
