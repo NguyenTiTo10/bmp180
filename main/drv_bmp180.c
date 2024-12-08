@@ -26,6 +26,8 @@
 #define BMP180_CMD_READ_TEMP        0x2E
 #define BMP180_CMD_READ_PRESSURE    0x34
 
+#define EEPROM_PARTITION_SIZE       22                  // 11 words, 16 bit each --> 176 bit = 8 * (22 bytes)
+
 // Calibration data variables
 int16_t AC1, AC2, AC3;
 uint16_t AC4, AC5, AC6;
@@ -81,7 +83,7 @@ esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp)
 
     uint8_t data[2];
 
-    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeif(data));
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
 
     *raw_temp = (data[0] << 8) | data[1];
     return ESP_OK;
