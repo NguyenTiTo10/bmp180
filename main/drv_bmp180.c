@@ -82,11 +82,14 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
 
     bsp_timer_delay(5); 
 
-    uint8_t data[2];
+    uint8_t raw_temp_msb;
+    uint8_t raw_temp_lsb;
 
-    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, &raw_temp_msb, 1);
+    
+    drv_bmp180_read_reg(BMP180_REG_OUT_LSB, &raw_temp_lsb, 1);
 
-    *raw_temp = (data[0] << 8) | data[1];
+    *raw_temp = (raw_temp_msb << 8) | raw_temp_lsb;
     
     return DRV_BMP180_OK;
 }
