@@ -33,10 +33,10 @@ int16_t B1, B2;
 int16_t MB, MC, MD;
 
 // Write to BMP180 register
-static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t command)
+static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t reg_addr)
 {
   bool ret = false;                                     
-  ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, BMP180_REG_CTRL_VALUE, &command, 1);
+  ret = bsp_i2c_write_mem((BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, BMP180_REG_CTRL_VALUE, &reg_addr, 1);
   return (ret == true) ? DRV_BMP180_OK : DRV_BMP180_ERROR;
 }
 
