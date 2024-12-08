@@ -109,16 +109,17 @@ int32_t drv_bmp180_read_raw_temperature (void)                     // uncompensa
 
     bsp_timer_delay(5); 
 
+    int32_t raw_temp;
     uint8_t temp_raw_msb;
     uint8_t temp_raw_lsb;
 
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB, &temp_raw_msb, 1);
 
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB, &temp_raw_lsb, 1);
-
-    *raw_temp = (temp_raw_msb << 8) | temp_raw_lsb;
     
-    return DRV_BMP180_OK;
+    raw_temp = (temp_raw_msb << 8) | temp_raw_lsb;
+    
+    return raw_temp;
 }
 
 
