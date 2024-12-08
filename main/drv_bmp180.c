@@ -43,13 +43,13 @@ static drv_bmp180_ret_t drv_bmp180_read_calibration (void);
 static int32_t drv_bmp180_read_raw_temp             (void);
 
 // Read raw pressure data from BMP180
-static int32_t drv_bmp180_read_raw_press         (void);
+static int32_t drv_bmp180_read_raw_press            (void);
 
 // Temperature compensation function
-static int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
+static int32_t drv_bmp180_calculate_temp            (int32_t raw_temp);
 
 // Pressure compensation function
-static int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp);
+static int32_t drv_bmp180_calculate_press           (int32_t raw_press, int32_t temp);
 
 
 
@@ -205,19 +205,18 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
         return DRV_BMP180_ERROR;
     }
 
-    int32_t uncompenstated_temp, uncompenstated_press;
+    int32_t temp_raw, press_raw;
+    int32_t temp_true_int, press_true_int;
+
     
-    uncompenstated_temp = drv_bmp180_read_raw_temp  ();
-    uncompenstated_press = drv_bmp180_read_raw_press();
+    temp_raw = drv_bmp180_read_raw_temp  ();
+    press_raw = drv_bmp180_read_raw_press();
 
+    temp_true_int = drv_bmp180_calculate_temp(temp_raw);
+    press_true_int = drv_bmp180_calculate_press(press_raw, temp_true_int);
 
-    int32_t true_temp, true_press;
-
-    true_temp = drv_bmp180_calculate_temp(uncompenstated_temp);
-    true_press = drv_bmp180_calculate_press(uncompenstated_press, true_temp);
-
-    ESP_LOGI("BMP180", "Temperature: %ld.%ld C", true_temp / 10, true_temp % 10);
-    ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", true_press / 100, true_press % 100);
+    ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp_true_int / 10, temp_true_int % 10);
+    ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press_true_int / 100, press_true_int % 100);
 
     return DRV_BMP180_OK;
 }
