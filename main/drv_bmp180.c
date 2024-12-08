@@ -99,19 +99,22 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
 // Read raw pressure data from BMP180
 drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)                      // uncompensated pressure   
 {
-    drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE);
+    if (drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE) != DRV_BMP180_OK)
+        return DRV_BMP180_ERROR;
 
     bsp_timer_delay(25);
 
-    uint8_t data[3];
-
     uint8_t press_raw_msb;
     uint8_t press_raw_lsb;
+    uint8_t press_raw_xlsb;
 
-    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB  , &press_raw_msb    , 1);
+    drv_bmp180_read_reg(BMP180_REG_OUT_LSB  , &press_raw_lsb    , 1);
+    drv_bmp180_read_reg(BMP180_REG_OUT_XLSB , &press_raw_xlsb   , 1);
 
-    *raw_press = (data[0] << 16) | (data[1] << 8) | data[2];
-    return ESP_OK;
+    *raw_press = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
+
+    return DRV_BMP180_OK;
 }
 
 // Temperature compensation function
