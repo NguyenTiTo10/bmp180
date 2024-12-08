@@ -2,7 +2,7 @@
 #include "esp_log.h"
 #include "driver/i2c.h"
 #include "drv_bmp180.h"
-
+#include "bsp_timer.h"
 // I2C Configuration
 #define I2C_MASTER_SCL_IO           22  // GPIO number for SCL
 #define I2C_MASTER_SDA_IO           21  // GPIO number for SDA
@@ -37,28 +37,35 @@ void app_main(void)
       ESP_LOGE("I2C", "I2C initialization failed!");
   
 
-    ret = bmp180_read_calibration();
-    if (ret != ESP_OK) {
-        ESP_LOGE("BMP180", "Calibration read failed!");
-        return;
+    while (1)
+    {
+        ret = bmp180_read_calibration();
+        if (ret != ESP_OK) {
+            ESP_LOGE("BMP180", "Calibration read failed!");
+            return;
+        }
+
+        int32_t raw_temp, raw_press;
+        ret = bmp180_read_raw_temperature(&raw_temp);
+        if (ret != ESP_OK) {
+            ESP_LOGE("BMP180", "Failed to read raw temperature!");
+            return;
+        }
+
+        ret = bmp180_read_raw_pressure(&raw_press);
+        if (ret != ESP_OK) {
+            ESP_LOGE("BMP180", "Failed to read raw pressure!");
+            return;
+        }
+
+        int32_t temp = bmp180_calculate_temperature(raw_temp);
+        int32_t press = bmp180_calculate_pressure(raw_press, temp);
+
+        ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
+        ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
+
+        bsp_timer_delay(2000);
     }
-
-    int32_t raw_temp, raw_press;
-    ret = bmp180_read_raw_temperature(&raw_temp);
-    if (ret != ESP_OK) {
-        ESP_LOGE("BMP180", "Failed to read raw temperature!");
-        return;
-    }
-
-    ret = bmp180_read_raw_pressure(&raw_press);
-    if (ret != ESP_OK) {
-        ESP_LOGE("BMP180", "Failed to read raw pressure!");
-        return;
-    }
-
-    int32_t temp = bmp180_calculate_temperature(raw_temp);
-    int32_t press = bmp180_calculate_pressure(raw_press, temp);
-
-    ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
-    ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
+    
+    
 }
