@@ -148,5 +148,7 @@ int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp)
     X1 = (p >> 8) * (p >> 8);
     X1 = (X1 * 3038) >> 16;
     X2 = (-7357 * p) >> 16;
-    return p + ((X1 + X2 + 3791) >> 4);
+    p = p + ((X1 + X2 + 3791) >> 4);
+
+    return p;
 }
