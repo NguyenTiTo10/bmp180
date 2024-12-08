@@ -226,3 +226,21 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
 
     return DRV_BMP180_OK;
 }
+
+
+float drv_bmp180_get_temp   (void)
+{
+    float ret_temp;
+    ret_temp = bmp180_ret.temperature;
+
+    return ret_temp;
+}
+
+
+float drv_bmp180_get_press  (void)
+{
+    float ret_press;
+    ret_press = bmp180_ret.pressure;
+
+    return ret_press;
+}
