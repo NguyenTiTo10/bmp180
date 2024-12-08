@@ -33,20 +33,6 @@ int16_t B1, B2;
 int16_t MB, MC, MD;
 
 // Write to BMP180 register
-esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len) 
-{
-    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, true);
-    i2c_master_write_byte(cmd, reg_addr, true);
-    i2c_master_write(cmd, data, len, true);
-    i2c_master_stop(cmd);
-    esp_err_t err = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
-    i2c_cmd_link_delete(cmd);
-    return err;
-}
-
-
 static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t command)
 {
   bool ret = false;                                     
@@ -69,6 +55,7 @@ esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len)
     i2c_cmd_link_delete(cmd);
     return err;
 }
+
 
 static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, size_t length)
 {
@@ -106,9 +93,8 @@ esp_err_t bmp180_read_calibration()
 }
 
 // Read raw temperature data from BMP180
-esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) {
-    // uint8_t cmd = BMP180_CMD_READ_TEMP;
-    // bmp180_write_register(BMP180_REG_CTRL_VALUE, &cmd, 1);
+esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) 
+{
 
     drv_bmp180_send_command(BMP180_CMD_READ_TEMP);
 
@@ -127,10 +113,8 @@ esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp) {
 }
 
 // Read raw pressure data from BMP180
-esp_err_t bmp180_read_raw_pressure(int32_t *raw_press) {
-    // uint8_t cmd = BMP180_CMD_READ_PRESSURE;
-    // bmp180_write_register(BMP180_REG_CTRL_VALUE, &cmd, 1);
-
+esp_err_t bmp180_read_raw_pressure(int32_t *raw_press) 
+{
     drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE);
 
     vTaskDelay(25 / portTICK_PERIOD_MS);  // Wait for conversion
