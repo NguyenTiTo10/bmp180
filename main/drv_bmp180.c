@@ -203,13 +203,10 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
         return DRV_BMP180_ERROR;
     }
 
-    int32_t raw_temp, raw_press;
-    ret = drv_bmp180_read_raw_temperature(&raw_temp);
-    if (ret != DRV_BMP180_OK) 
-    {
-        ESP_LOGE("BMP180", "Failed to read raw temperature!");
-        return DRV_BMP180_ERROR;
-    }
+    int32_t uncompenstated_temp, raw_press;
+    
+    uncompenstated_temp = drv_bmp180_read_raw_temperature();
+
 
     ret = drv_bmp180_read_raw_pressure (&raw_press);
     if (ret != DRV_BMP180_OK) 
