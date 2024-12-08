@@ -175,7 +175,7 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
     if (ret != DRV_BMP180_OK) 
     {
         ESP_LOGE("BMP180", "Calibration read failed!");
-        return;
+        return DRV_BMP180_ERROR;
     }
 
     int32_t raw_temp, raw_press;
@@ -183,14 +183,14 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
     if (ret != DRV_BMP180_OK) 
     {
         ESP_LOGE("BMP180", "Failed to read raw temperature!");
-        return;
+        return DRV_BMP180_ERROR;
     }
 
     ret = drv_bmp180_read_raw_pressure (&raw_press);
     if (ret != DRV_BMP180_OK) 
     {
         ESP_LOGE("BMP180", "Failed to read raw pressure!");
-        return;
+        return DRV_BMP180_ERROR;
     }
 
     int32_t temp = drv_bmp180_calculate_temp(raw_temp);
@@ -198,4 +198,6 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
 
     ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
     ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
+
+    return DRV_BMP180_OK;
 }

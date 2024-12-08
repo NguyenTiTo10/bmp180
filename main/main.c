@@ -35,11 +35,12 @@ void app_main(void)
     esp_err_t ret = i2c_master_init();
     if (ret != ESP_OK) 
       ESP_LOGE("I2C", "I2C initialization failed!");
-  
+
+    drv_bmp180_init();
 
     while (1)
     {
-        
+        drv_bmp180_start_read ();
 
         bsp_timer_delay(2000);
     }
