@@ -54,15 +54,17 @@ static int32_t drv_bmp180_calculate_press           (int32_t raw_press, int32_t 
 
 
 // Calibration data variables
-int16_t     AC1, AC2, AC3;
-uint16_t    AC4, AC5, AC6;
-int16_t     B1, B2;
-int16_t     MB, MC, MD;
+static  int16_t     AC1, AC2, AC3;
+static  uint16_t    AC4, AC5, AC6;
+static  int16_t     B1, B2;
+static  int16_t     MB, MC, MD;
 
-int32_t temp_raw, press_raw;
-int32_t temp_true_int, press_true_int;
+// Value raw, final int of temperature
+static  int32_t     temp_raw, press_raw;
+static  int32_t     temp_true_int, press_true_int;
 
-bmp180_struct_t bmp180_ret;
+// Return value temperature and pressure
+static  bmp180_struct_t bmp180_ret;
 
 
 
@@ -108,7 +110,7 @@ static drv_bmp180_ret_t drv_bmp180_read_calibration (void)
 
 
 // Read raw temperature data from BMP180
-int32_t drv_bmp180_read_raw_temp (void)                     // uncompensated temperature
+static int32_t drv_bmp180_read_raw_temp (void)                     // uncompensated temperature
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_TEMP) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -130,7 +132,7 @@ int32_t drv_bmp180_read_raw_temp (void)                     // uncompensated tem
 
 
 // Read raw pressure data from BMP180
-int32_t drv_bmp180_read_raw_press ()                      // uncompensated pressure   
+static int32_t drv_bmp180_read_raw_press ()                      // uncompensated pressure   
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -154,7 +156,7 @@ int32_t drv_bmp180_read_raw_press ()                      // uncompensated press
 
 
 // Temperature compensation function
-int32_t drv_bmp180_calculate_temp(int32_t raw_temp) 
+static int32_t drv_bmp180_calculate_temp(int32_t raw_temp) 
 {
     int32_t X1 = ((raw_temp - AC6) * AC5) >> 15;
     int32_t X2 = (MC << 11) / (X1 + MD);
@@ -167,7 +169,7 @@ int32_t drv_bmp180_calculate_temp(int32_t raw_temp)
 
 
 // Pressure compensation function
-int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp) 
+static int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp) 
 {
     int32_t B6 = temp - 4000;
     int32_t X1 = (B2 * (B6 * B6 >> 12)) >> 11;
