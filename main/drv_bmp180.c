@@ -60,7 +60,7 @@ esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len)
 static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, size_t length)
 {
   bool ret = false;                                     
-  ret = bsp_i2c_read_mem(BMP180_SENSOR_ADDR, reg_addr, data, 1);
+  ret = bsp_i2c_read_mem(BMP180_SENSOR_ADDR, reg_addr, data, length);
   return (ret == true) ? DRV_BMP180_ERROR : DRV_BMP180_OK;
 }
 
