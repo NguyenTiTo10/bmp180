@@ -54,8 +54,9 @@ void app_main(void)
             return;
         }
 
-        ret = bmp180_read_raw_pressure(&raw_press);
-        if (ret != ESP_OK) {
+        ret = drv_bmp180_read_raw_pressure (&raw_press);
+        if (ret != DRV_BMP180_OK) 
+        {
             ESP_LOGE("BMP180", "Failed to read raw pressure!");
             return;
         }

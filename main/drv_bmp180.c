@@ -74,6 +74,7 @@ drv_bmp180_ret_t drv_bmp180_read_calibration()
     return DRV_BMP180_OK;
 }
 
+
 // Read raw temperature data from BMP180
 drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)                     // uncompensated temperature
 {
@@ -86,7 +87,7 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
     uint8_t raw_temp_lsb;
 
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB, &raw_temp_msb, 1);
-    
+
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB, &raw_temp_lsb, 1);
 
     *raw_temp = (raw_temp_msb << 8) | raw_temp_lsb;
@@ -94,8 +95,9 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
     return DRV_BMP180_OK;
 }
 
+
 // Read raw pressure data from BMP180
-esp_err_t bmp180_read_raw_pressure(int32_t *raw_press) 
+drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)                      // uncompensated pressure   
 {
     drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE);
 
