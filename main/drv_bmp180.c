@@ -109,22 +109,22 @@ int32_t drv_bmp180_read_raw_temp (void)                     // uncompensated tem
 
     bsp_timer_delay(5); 
 
-    int32_t raw_temp;
     uint8_t temp_raw_msb;
     uint8_t temp_raw_lsb;
+    int32_t raw_temp_ret;
 
     drv_bmp180_read_reg(BMP180_REG_OUT_MSB, &temp_raw_msb, 1);
 
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB, &temp_raw_lsb, 1);
     
-    raw_temp = (temp_raw_msb << 8) | temp_raw_lsb;
+    raw_temp_ret = (temp_raw_msb << 8) | temp_raw_lsb;
     
-    return raw_temp;
+    return raw_temp_ret;
 }
 
 
 // Read raw pressure data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_raw_press (int32_t *raw_press)                      // uncompensated pressure   
+int32_t drv_bmp180_read_raw_press ()                      // uncompensated pressure   
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -139,7 +139,7 @@ drv_bmp180_ret_t drv_bmp180_read_raw_press (int32_t *raw_press)                 
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB  , &press_raw_lsb    , 1);
     drv_bmp180_read_reg(BMP180_REG_OUT_XLSB , &press_raw_xlsb   , 1);
 
-    *raw_press = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
+    int32_t raw_press_ret; = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
 
     return DRV_BMP180_OK;
 }
