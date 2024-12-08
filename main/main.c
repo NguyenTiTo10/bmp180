@@ -40,14 +40,15 @@ void app_main(void)
     while (1)
     {
         ret = drv_bmp180_read_calibration();
-        if (ret != DRV_BMP180_OK) {
+        if (ret != DRV_BMP180_OK) 
+        {
             ESP_LOGE("BMP180", "Calibration read failed!");
             return;
         }
 
         int32_t raw_temp, raw_press;
-        ret = bmp180_read_raw_temperature(&raw_temp);
-        if (ret != ESP_OK) {
+        ret = drv_bmp180_read_raw_temperature(&raw_temp);
+        if (ret != DRV_BMP180_OK) {
             ESP_LOGE("BMP180", "Failed to read raw temperature!");
             return;
         }
