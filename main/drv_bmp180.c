@@ -139,11 +139,11 @@ int32_t drv_bmp180_read_raw_pressure ()                      // uncompensated pr
     drv_bmp180_read_reg(BMP180_REG_OUT_XLSB , &press_raw_xlsb   , 1);
 
 
-    int32_t uncompensated_temp;
+    int32_t raw_temp_ret;
 
-    uncompensated_temp = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
+    raw_temp_ret = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
 
-    return uncompensated_temp;
+    return raw_temp_ret;
 }
 
 
