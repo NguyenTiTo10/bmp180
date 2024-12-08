@@ -39,33 +39,7 @@ void app_main(void)
 
     while (1)
     {
-        ret = drv_bmp180_read_calibration();
-        if (ret != DRV_BMP180_OK) 
-        {
-            ESP_LOGE("BMP180", "Calibration read failed!");
-            return;
-        }
-
-        int32_t raw_temp, raw_press;
-        ret = drv_bmp180_read_raw_temperature(&raw_temp);
-        if (ret != DRV_BMP180_OK) 
-        {
-            ESP_LOGE("BMP180", "Failed to read raw temperature!");
-            return;
-        }
-
-        ret = drv_bmp180_read_raw_pressure (&raw_press);
-        if (ret != DRV_BMP180_OK) 
-        {
-            ESP_LOGE("BMP180", "Failed to read raw pressure!");
-            return;
-        }
-
-        int32_t temp = drv_bmp180_calculate_temp(raw_temp);
-        int32_t press = drv_bmp180_calculate_press(raw_press, temp);
-
-        ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
-        ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
+        
 
         bsp_timer_delay(2000);
     }

@@ -28,11 +28,13 @@
 
 #define EEPROM_SIZE                 22                  // 11 words, 16 bit each --> 176 bit = 8 * (22 bytes)
 
+
 // Calibration data variables
 int16_t AC1, AC2, AC3;
 uint16_t AC4, AC5, AC6;
 int16_t B1, B2;
 int16_t MB, MC, MD;
+
 
 // Write to BMP180 register
 static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t control_reg_value)
@@ -117,6 +119,7 @@ drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)              
     return DRV_BMP180_OK;
 }
 
+
 // Temperature compensation function
 int32_t drv_bmp180_calculate_temp(int32_t raw_temp) 
 {
@@ -128,6 +131,7 @@ int32_t drv_bmp180_calculate_temp(int32_t raw_temp)
 
     return ret_temp;  // Temperature in 0.1°C
 }
+
 
 // Pressure compensation function
 int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp) 
@@ -161,6 +165,37 @@ drv_bmp180_ret_t drv_bmp180_init()
     if (drv_bmp180_read_reg(BMP180_REG_CTRL_VALUE, &test_byte, 1) != DRV_BMP180_OK) 
         return DRV_BMP180_ERROR;
     
-
     return DRV_BMP180_OK;
+}
+
+
+drv_bmp180_ret_t drv_bmp180_start_read ()
+{
+    drv_bmp180_ret_t ret = drv_bmp180_read_calibration();
+    if (ret != DRV_BMP180_OK) 
+    {
+        ESP_LOGE("BMP180", "Calibration read failed!");
+        return;
+    }
+
+    int32_t raw_temp, raw_press;
+    ret = drv_bmp180_read_raw_temperature(&raw_temp);
+    if (ret != DRV_BMP180_OK) 
+    {
+        ESP_LOGE("BMP180", "Failed to read raw temperature!");
+        return;
+    }
+
+    ret = drv_bmp180_read_raw_pressure (&raw_press);
+    if (ret != DRV_BMP180_OK) 
+    {
+        ESP_LOGE("BMP180", "Failed to read raw pressure!");
+        return;
+    }
+
+    int32_t temp = drv_bmp180_calculate_temp(raw_temp);
+    int32_t press = drv_bmp180_calculate_press(raw_press, temp);
+
+    ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
+    ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
 }
