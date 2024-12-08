@@ -43,7 +43,7 @@ static drv_bmp180_ret_t drv_bmp180_read_calibration (void);
 static int32_t drv_bmp180_read_raw_temperature      (void);
 
 // Read raw pressure data from BMP180
-static drv_bmp180_ret_t drv_bmp180_read_raw_pressure(int32_t *raw_press);
+static int32_t drv_bmp180_read_raw_pressure         (void);
 
 // Temperature compensation function
 static int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
