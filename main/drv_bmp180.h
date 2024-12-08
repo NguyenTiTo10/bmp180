@@ -32,5 +32,8 @@ int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
 // Pressure compensation function
 int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp);
 
+drv_bmp180_ret_t drv_bmp180_init();
+
+
 
 #endif

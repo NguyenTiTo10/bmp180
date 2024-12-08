@@ -152,3 +152,15 @@ int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp)
 
     return p;
 }
+
+
+drv_bmp180_ret_t drv_bmp180_init() 
+{
+    // Check if the BMP180 sensor is connected
+    uint8_t test_byte;
+    if (drv_bmp180_read_reg(BMP180_REG_CTRL_VALUE, &test_byte, 1) != DRV_BMP180_OK) 
+        return DRV_BMP180_ERROR;
+    
+
+    return DRV_BMP180_OK;
+}
