@@ -39,8 +39,8 @@ void app_main(void)
 
     while (1)
     {
-        ret = bmp180_read_calibration();
-        if (ret != ESP_OK) {
+        ret = drv_bmp180_read_calibration();
+        if (ret != DRV_BMP180_OK) {
             ESP_LOGE("BMP180", "Calibration read failed!");
             return;
         }
