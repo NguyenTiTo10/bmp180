@@ -17,21 +17,6 @@ typedef enum
 } drv_bmp180_ret_t;
 
 
-// Function to read calibration data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_calibration();
-
-// Read raw temperature data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp);
-
-// Read raw pressure data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press);
-
-// Temperature compensation function
-int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
-
-// Pressure compensation function
-int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp);
-
 drv_bmp180_ret_t drv_bmp180_init();
 
 drv_bmp180_ret_t drv_bmp180_start_read ();

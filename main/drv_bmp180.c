@@ -29,6 +29,30 @@
 #define EEPROM_SIZE                 22                  // 11 words, 16 bit each --> 176 bit = 8 * (22 bytes)
 
 
+
+// Write to BMP180 register
+static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t control_reg_value);
+
+// Read from BMP180 register
+static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, size_t length); 
+
+// Function to read calibration data from BMP180
+static drv_bmp180_ret_t drv_bmp180_read_calibration();
+
+// Read raw temperature data from BMP180
+static drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp);
+
+// Read raw pressure data from BMP180
+static drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press);
+
+// Temperature compensation function
+static int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
+
+// Pressure compensation function
+static int32_t drv_bmp180_calculate_press(int32_t raw_press, int32_t temp);
+
+
+
 // Calibration data variables
 int16_t AC1, AC2, AC3;
 uint16_t AC4, AC5, AC6;
