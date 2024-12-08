@@ -59,6 +59,8 @@ uint16_t    AC4, AC5, AC6;
 int16_t     B1, B2;
 int16_t     MB, MC, MD;
 
+int32_t temp_true_int, press_true_int;
+
 
 // Write to BMP180 register
 static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t control_reg_value)
@@ -206,9 +208,7 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
     }
 
     int32_t temp_raw, press_raw;
-    int32_t temp_true_int, press_true_int;
 
-    
     temp_raw = drv_bmp180_read_raw_temp  ();
     press_raw = drv_bmp180_read_raw_press();
 

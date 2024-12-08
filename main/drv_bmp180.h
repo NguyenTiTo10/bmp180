@@ -17,6 +17,13 @@ typedef enum
 } drv_bmp180_ret_t;
 
 
+typedef struct 
+{
+  temputure,
+  pressure
+} bmp180_struct_t;
+
+
 drv_bmp180_ret_t drv_bmp180_init();
 
 drv_bmp180_ret_t drv_bmp180_start_read ();
