@@ -40,28 +40,13 @@ static drv_bmp180_ret_t drv_bmp180_send_command (uint8_t control_reg_value)
   return (ret == true) ? DRV_BMP180_OK : DRV_BMP180_ERROR;
 }
 
+
 // Read from BMP180 register
-esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len) 
-{
-    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (BMP180_SENSOR_ADDR << 1) | I2C_MASTER_WRITE, true);
-    i2c_master_write_byte(cmd, reg_addr, true);
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (BMP180_SENSOR_ADDR << 1) | I2C_MASTER_READ, true);
-    i2c_master_read(cmd, data, len, I2C_MASTER_LAST_NACK);
-    i2c_master_stop(cmd);
-    esp_err_t err = i2c_master_cmd_begin(I2C_MASTER_NUM, cmd, 1000 / portTICK_PERIOD_MS);
-    i2c_cmd_link_delete(cmd);
-    return err;
-}
-
-
 static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, size_t length)
 {
   bool ret = false;                                     
   ret = bsp_i2c_read_mem(BMP180_SENSOR_ADDR, reg_addr, data, length);
-  return (ret == true) ? DRV_BMP180_ERROR : DRV_BMP180_OK;
+  return (ret == true) ? DRV_BMP180_OK : DRV_BMP180_ERROR;
 }
 
 
