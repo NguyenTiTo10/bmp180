@@ -54,7 +54,7 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, s
 esp_err_t bmp180_read_calibration() 
 {
     uint8_t data[22];
-    drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, 22);
+    drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, sizeof(data));
 
 
     AC1 = (data[0] << 8) | data[1];
@@ -81,7 +81,7 @@ esp_err_t bmp180_read_raw_temperature(int32_t *raw_temp)
 
     uint8_t data[2];
 
-    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 2);
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeif(data));
 
     *raw_temp = (data[0] << 8) | data[1];
     return ESP_OK;
@@ -96,7 +96,7 @@ esp_err_t bmp180_read_raw_pressure(int32_t *raw_press)
 
     uint8_t data[3];
 
-    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, 3);
+    drv_bmp180_read_reg(BMP180_REG_OUT_MSB, data, sizeof(data));
 
     *raw_press = (data[0] << 16) | (data[1] << 8) | data[2];
     return ESP_OK;

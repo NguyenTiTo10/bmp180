@@ -17,12 +17,6 @@ typedef enum
 } drv_bmp180_ret_t;
 
 
-// Write to BMP180 register
-esp_err_t bmp180_write_register(uint8_t reg_addr, uint8_t *data, size_t len);
-
-// Read from BMP180 register
-esp_err_t bmp180_read_register(uint8_t reg_addr, uint8_t *data, size_t len);
-
 // Function to read calibration data from BMP180
 esp_err_t bmp180_read_calibration();
 
