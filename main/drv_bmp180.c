@@ -205,17 +205,10 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
         return DRV_BMP180_ERROR;
     }
 
-    int32_t uncompenstated_temp, raw_press;
+    int32_t uncompenstated_temp, uncompenstated_press;
     
-    uncompenstated_temp = drv_bmp180_read_raw_temp();
-
-
-    ret = drv_bmp180_read_raw_press (&raw_press);
-    if (ret != DRV_BMP180_OK) 
-    {
-        ESP_LOGE("BMP180", "Failed to read raw pressure!");
-        return DRV_BMP180_ERROR;
-    }
+    uncompenstated_temp = drv_bmp180_read_raw_temp  ();
+    uncompenstated_press = drv_bmp180_read_raw_press();
 
     int32_t temp = drv_bmp180_calculate_temp(raw_temp);
     int32_t press = drv_bmp180_calculate_press(raw_press, temp);
