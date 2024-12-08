@@ -2,9 +2,6 @@
 #define DRV_BMP180_H
 
 #include "stdio.h"
-#include "esp_log.h"
-#include "driver/i2c.h"
-#include "portmacro.h"
 
 #include "bsp_i2c.h"
 #include "bsp_timer.h"
