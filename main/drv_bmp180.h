@@ -28,7 +28,9 @@ drv_bmp180_ret_t drv_bmp180_init();
 
 drv_bmp180_ret_t drv_bmp180_start_read ();
 
+float drv_bmp180_get_temp   (void);
 
+float drv_bmp180_get_press  (void);
 
 
 #endif
