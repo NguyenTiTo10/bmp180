@@ -19,8 +19,8 @@ typedef enum
 
 typedef struct 
 {
-  temputure,
-  pressure
+  float temperature;
+  float pressure;
 } bmp180_struct_t;
 
 
