@@ -79,7 +79,7 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, s
 
 
 // Function to read calibration data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_calibration() 
+static drv_bmp180_ret_t drv_bmp180_read_calibration() 
 {
     uint8_t data[EEPROM_SIZE];
     if (drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, EEPROM_SIZE) != DRV_BMP180_OK)
@@ -123,7 +123,7 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp)             
 
 
 // Read raw pressure data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)                      // uncompensated pressure   
+int32_t drv_bmp180_read_raw_pressure ()                      // uncompensated pressure   
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -138,9 +138,12 @@ drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)              
     drv_bmp180_read_reg(BMP180_REG_OUT_LSB  , &press_raw_lsb    , 1);
     drv_bmp180_read_reg(BMP180_REG_OUT_XLSB , &press_raw_xlsb   , 1);
 
-    *raw_press = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
 
-    return DRV_BMP180_OK;
+    int32_t uncompensated_temp;
+
+    uncompensated_temp = (BMP180_REG_OUT_MSB << 16) | (BMP180_REG_OUT_LSB << 8) | BMP180_REG_OUT_XLSB;
+
+    return uncompensated_temp;
 }
 
 
