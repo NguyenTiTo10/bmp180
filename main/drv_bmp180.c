@@ -26,7 +26,7 @@
 #define BMP180_CMD_READ_TEMP        0x2E
 #define BMP180_CMD_READ_PRESSURE    0x34
 
-#define EEPROM_PARTITION_SIZE       22                  // 11 words, 16 bit each --> 176 bit = 8 * (22 bytes)
+#define EEPROM_SIZE                 22                  // 11 words, 16 bit each --> 176 bit = 8 * (22 bytes)
 
 // Calibration data variables
 int16_t AC1, AC2, AC3;
@@ -53,25 +53,25 @@ static drv_bmp180_ret_t drv_bmp180_read_reg (uint16_t reg_addr, uint8_t *data, s
 
 
 // Function to read calibration data from BMP180
-esp_err_t bmp180_read_calibration() 
+drv_bmp180_ret_t drv_bmp180_read_calibration() 
 {
-    uint8_t data[22];
-    drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, sizeof(data));
+    uint8_t data[EEPROM_SIZE];
+    if (drv_bmp180_read_reg(BMP180_REG_CAL_AC1, data, EEPROM_SIZE) == DRV_BMP180_ERROR)
+        return DRV_BMP180_ERROR;
 
-
-    AC1 = (data[0] << 8) | data[1];
-    AC2 = (data[2] << 8) | data[3];
-    AC3 = (data[4] << 8) | data[5];
-    AC4 = (data[6] << 8) | data[7];
-    AC5 = (data[8] << 8) | data[9];
+    AC1 = (data[0]  << 8) | data[1] ;
+    AC2 = (data[2]  << 8) | data[3] ;
+    AC3 = (data[4]  << 8) | data[5] ;
+    AC4 = (data[6]  << 8) | data[7] ;
+    AC5 = (data[8]  << 8) | data[9] ;
     AC6 = (data[10] << 8) | data[11];
-    B1 = (data[12] << 8) | data[13];
-    B2 = (data[14] << 8) | data[15];
-    MB = (data[16] << 8) | data[17];
-    MC = (data[18] << 8) | data[19];
-    MD = (data[20] << 8) | data[21];
+    B1  = (data[12] << 8) | data[13];
+    B2  = (data[14] << 8) | data[15];
+    MB  = (data[16] << 8) | data[17];
+    MC  = (data[18] << 8) | data[19];
+    MD  = (data[20] << 8) | data[21];
 
-    return ESP_OK;
+    return DRV_BMP180_OK;
 }
 
 // Read raw temperature data from BMP180
