@@ -40,10 +40,10 @@ static drv_bmp180_ret_t drv_bmp180_read_reg         (uint16_t reg_addr, uint8_t 
 static drv_bmp180_ret_t drv_bmp180_read_calibration (void);
 
 // Read raw temperature data from BMP180
-static int32_t drv_bmp180_read_raw_temperature      (void);
+static int32_t drv_bmp180_read_raw_temp             (void);
 
 // Read raw pressure data from BMP180
-static int32_t drv_bmp180_read_raw_pressure         (void);
+static int32_t drv_bmp180_read_raw_press         (void);
 
 // Temperature compensation function
 static int32_t drv_bmp180_calculate_temp(int32_t raw_temp);
@@ -102,7 +102,7 @@ static drv_bmp180_ret_t drv_bmp180_read_calibration (void)
 
 
 // Read raw temperature data from BMP180
-int32_t drv_bmp180_read_raw_temperature (void)                     // uncompensated temperature
+int32_t drv_bmp180_read_raw_temp (void)                     // uncompensated temperature
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_TEMP) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -124,7 +124,7 @@ int32_t drv_bmp180_read_raw_temperature (void)                     // uncompensa
 
 
 // Read raw pressure data from BMP180
-drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press)                      // uncompensated pressure   
+drv_bmp180_ret_t drv_bmp180_read_raw_press (int32_t *raw_press)                      // uncompensated pressure   
 {
     if (drv_bmp180_send_command(BMP180_CMD_READ_PRESSURE) != DRV_BMP180_OK)
         return DRV_BMP180_ERROR;
@@ -205,10 +205,10 @@ drv_bmp180_ret_t drv_bmp180_start_read ()
 
     int32_t uncompenstated_temp, raw_press;
     
-    uncompenstated_temp = drv_bmp180_read_raw_temperature();
+    uncompenstated_temp = drv_bmp180_read_raw_temp();
 
 
-    ret = drv_bmp180_read_raw_pressure (&raw_press);
+    ret = drv_bmp180_read_raw_press (&raw_press);
     if (ret != DRV_BMP180_OK) 
     {
         ESP_LOGE("BMP180", "Failed to read raw pressure!");
