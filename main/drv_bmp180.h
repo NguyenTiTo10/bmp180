@@ -27,10 +27,10 @@ drv_bmp180_ret_t drv_bmp180_read_raw_temperature(int32_t *raw_temp);
 drv_bmp180_ret_t drv_bmp180_read_raw_pressure (int32_t *raw_press);
 
 // Temperature compensation function
-int32_t bmp180_calculate_temperature(int32_t raw_temp);
+int32_t drv_bmp180_get_true_temp(int32_t raw_temp);
 
 // Pressure compensation function
-int32_t bmp180_calculate_pressure(int32_t raw_press, int32_t temp);
+int32_t drv_bmp180_get_true_press(int32_t raw_press, int32_t temp);
 
 
 #endif

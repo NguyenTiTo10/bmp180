@@ -61,8 +61,8 @@ void app_main(void)
             return;
         }
 
-        int32_t temp = bmp180_calculate_temperature(raw_temp);
-        int32_t press = bmp180_calculate_pressure(raw_press, temp);
+        int32_t temp = drv_bmp180_get_true_temp(raw_temp);
+        int32_t press = drv_bmp180_get_true_press(raw_press, temp);
 
         ESP_LOGI("BMP180", "Temperature: %ld.%ld C", temp / 10, temp % 10);
         ESP_LOGI("BMP180", "Pressure: %ld.%ld hPa", press / 100, press % 100);
